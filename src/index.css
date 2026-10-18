@@ -1,0 +1,76 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/inter-tight";
+
+/* Paleta da página de conta da Epic Games (só tema escuro). */
+:root {
+  --background: #101014;
+  --foreground: #ffffff;
+  --card: #202024;
+  --card-foreground: #ffffff;
+  --popover: #202024;
+  --popover-foreground: #ffffff;
+  --primary: #26bbff;
+  --primary-hover: #61cdff;
+  --primary-foreground: #101014;
+  --secondary: #202024;
+  --secondary-foreground: #ffffff;
+  --muted: #202024;
+  --muted-foreground: rgb(255 255 255 / 0.65);
+  --accent: #26bbff;
+  --accent-foreground: #101014;
+  --destructive: #de3341;
+  --border: rgb(255 255 255 / 0.15);
+  --input: rgb(255 255 255 / 0.35);
+  --ring: rgb(38 187 255 / 0.5);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-border-strong: var(--input);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: "Inter Variable", Inter, system-ui, sans-serif;
+  --font-display: "Inter Tight Variable", "Inter Tight", "Inter Variable", system-ui, sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html {
+    color-scheme: dark;
+    /* Reserva o espaço da barra de rolagem: a página não muda de largura entre seções curtas e longas. */
+    scrollbar-gutter: stable;
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    -webkit-font-smoothing: antialiased;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,14 @@
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.env.*
+!.env.example
+.vercel
+*.tsbuildinfo
+
+# Skills das ferramentas de IA (não fazem parte do site)
+.agents
+.claude
+skills-lock.json

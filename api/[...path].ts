@@ -15,11 +15,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const target = LLAMA_API_URL + url.pathname.replace(/^\/api/, "") + url.search;
 
   const hasBody = req.method !== "GET" && req.method !== "HEAD" && req.body !== undefined;
-  const body = !hasBody
+  // Os corpos que o front manda são sempre JSON (texto). Buffer vira string,
+  // porque o tipo BodyInit do fetch (lib DOM, usada pela Vercel) não aceita Buffer.
+  const body: string | undefined = !hasBody
     ? undefined
-    : typeof req.body === "string" || Buffer.isBuffer(req.body)
+    : typeof req.body === "string"
       ? req.body
-      : JSON.stringify(req.body);
+      : Buffer.isBuffer(req.body)
+        ? req.body.toString("utf8")
+        : JSON.stringify(req.body);
 
   const upstream = await fetch(target, {
     method: req.method,

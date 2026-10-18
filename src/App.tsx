@@ -29,7 +29,7 @@ function LoginScreen({ onApproved }: { onApproved: (sessionId: string) => Promis
       <div className="w-full max-w-[360px]">
         <div className="mb-10 flex flex-col items-center text-center">
           <Logo className="mb-6 size-28" />
-          <h1 className="font-display text-[32px] leading-10 font-bold">Llama Checker</h1>
+          <h1 className="font-brand text-[40px] leading-10 tracking-wide">Llama Checker</h1>
           <p className="mt-2 text-base text-muted-foreground">{t.login.tagline}</p>
         </div>
         <DeviceLogin onApproved={onApproved} />
@@ -89,7 +89,7 @@ function Dashboard({ account, data }: { account: ReturnType<typeof useAccount>; 
         <div className="mx-auto flex h-16 max-w-[1132px] items-center gap-3 px-4">
           <a href="#/conta" className="flex min-w-0 items-center gap-2.5" onClick={(e) => (e.preventDefault(), navigate("conta"))}>
             <Logo />
-            <span className="truncate font-display text-lg font-bold">Llama Checker</span>
+            <span className="truncate font-brand text-xl leading-none tracking-wide">Llama Checker</span>
           </a>
           <div className="ml-auto flex items-center gap-1 sm:gap-2">
             <LanguageSwitch />

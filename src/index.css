@@ -2,6 +2,15 @@
 @import "@fontsource-variable/inter";
 @import "@fontsource-variable/inter-tight";
 
+/* Burbank Big (fonte do Fortnite): usada só no nome "Llama Checker". */
+@font-face {
+  font-family: "Burbank Big";
+  src: url("./assets/fonts/burbank-big-black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Paleta da página de conta da Epic Games (só tema escuro). */
 :root {
   --background: #101014;
@@ -49,6 +58,7 @@
 
   --font-sans: "Inter Variable", Inter, system-ui, sans-serif;
   --font-display: "Inter Tight Variable", "Inter Tight", "Inter Variable", system-ui, sans-serif;
+  --font-brand: "Burbank Big", "Inter Tight Variable", system-ui, sans-serif;
 }
 
 @layer base {

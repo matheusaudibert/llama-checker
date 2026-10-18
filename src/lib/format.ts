@@ -20,8 +20,8 @@ export function initials(name: string): string {
 }
 
 const PLATFORM_NAMES: Record<string, string> = {
-  psn: "PlayStation Network",
-  xbl: "Xbox Network",
+  psn: "PlayStation",
+  xbl: "Xbox",
   nintendo: "Nintendo",
   steam: "Steam",
   github: "GitHub",
@@ -31,6 +31,8 @@ const PLATFORM_NAMES: Record<string, string> = {
   twitch: "Twitch",
   twitter: "X (Twitter)",
   lego: "LEGO",
+  disney: "Disney",
+  autodesk: "Autodesk",
   vk: "VK",
   epicgames: "Epic Games",
   EpicPC: "Epic Games (PC)",
@@ -144,7 +146,7 @@ export function createFormat(lang: Language) {
     platform: (code: string | null | undefined) => {
       if (!code) return "—";
       const local = pt ? PT_PLATFORMS : EN_PLATFORMS;
-      return local[code] ?? PLATFORM_NAMES[code] ?? PLATFORM_NAMES[code.toLowerCase()] ?? code;
+      return local[code] ?? PLATFORM_NAMES[code] ?? PLATFORM_NAMES[code.toLowerCase()] ?? code[0].toUpperCase() + code.slice(1);
     },
     /** A API manda raridade e série em inglês ("Epic", "Icon Series"). */
     rarity: (rarity: string) => {

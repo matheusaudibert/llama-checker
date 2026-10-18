@@ -31,7 +31,7 @@ function NavList({ active, onSelect }: { active: SectionId; onSelect: (id: Secti
                     )}
                   >
                     <span className="flex size-8 shrink-0 items-center">
-                      <Icon className="size-6 text-primary" strokeWidth={1.5} />
+                      <Icon className={cn("size-6", item.iconClass ?? "text-primary")} strokeWidth={1.5} />
                     </span>
                     <span className="truncate leading-7">{t.nav[item.id]}</span>
                   </a>
@@ -69,7 +69,7 @@ export function MobileNav({ active, onSelect }: { active: SectionId; onSelect: (
       <Collapsible open={open} onOpenChange={setOpen} className="rounded-2xl bg-card">
         <CollapsibleTrigger className="h-14 rounded-2xl px-4 hover:bg-transparent">
           <span className="flex size-8 shrink-0 items-center">
-            <Icon className="size-6 text-primary" strokeWidth={1.5} />
+            <Icon className={cn("size-6", current.iconClass ?? "text-primary")} strokeWidth={1.5} />
           </span>
           <span className="truncate text-sm font-medium">{t.nav[current.id]}</span>
           <CollapsibleIndicator />

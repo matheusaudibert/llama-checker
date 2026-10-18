@@ -1,7 +1,7 @@
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { CopyAction, DataTable, Field, FieldGrid, FieldIconButton, PageHeader, Section, Sections, Status } from "@/components/ui/layout";
-import { Avatar, Flag } from "@/components/ui/misc";
+import { Avatar, Flag, PlatformIcon } from "@/components/ui/misc";
 import type { AccountData } from "@/hooks/use-account";
 import { maskEmail } from "@/lib/format";
 import { useI18n } from "@/lib/i18n";
@@ -48,6 +48,18 @@ export function AccountSection({ data }: Props) {
             >
               {summary.email ? (showEmail ? summary.email : maskEmail(summary.email)) : "—"}
             </Field>
+            {/* null: a Epic não respondeu essa parte; não dá para dizer que pode trocar. */}
+            {summary.can_change_email != null ? (
+              <Field label={t.account.canChangeEmail}>
+                <Status ok={summary.can_change_email}>
+                  {summary.can_change_email
+                    ? t.common.yes
+                    : summary.email_change_available_at
+                      ? t.account.emailLockedUntil(f.date(summary.email_change_available_at))
+                      : t.common.no}
+                </Status>
+              </Field>
+            ) : null}
             <Field label={t.account.accountId} mono actions={<CopyAction value={summary.account_id} label={t.account.copyId} />}>
               {summary.account_id}
             </Field>
@@ -126,38 +138,62 @@ export function SecuritySection({ data }: Props) {
   );
 }
 
+// Todo type fora daqui (steam, github, um nome novo…) conta como "outras contas".
+const CONSOLES = new Set(["psn", "xbl", "nintendo"]);
+const isConsole = (type: string | null) => CONSOLES.has(type?.toLowerCase() ?? "");
+
 export function ConnectionsSection({ data }: Props) {
   const { t, f } = useI18n();
   const { summary } = data;
-  const linked = summary.external_auths.length;
+  const consoles = summary.external_auths.filter((auth) => isConsole(auth.type));
+  const others = summary.external_auths.filter((auth) => !isConsole(auth.type));
+  // Consoles primeiro, depois as outras contas.
+  const linkable = [...summary.linkable_platforms].sort((a, b) => Number(isConsole(b)) - Number(isConsole(a)));
+  const authTable = (auths: typeof consoles, empty: string) => (
+    <DataTable
+      empty={empty}
+      columns={[
+        { key: "platform", label: t.connections.platform },
+        { key: "name", label: t.connections.nameOnPlatform },
+        { key: "date", label: t.connections.connectedAt, align: "right" },
+      ]}
+      rows={auths.map((auth, index) => ({
+        key: `${auth.type}-${index}`,
+        cells: {
+          platform: (
+            <span className="inline-flex items-center gap-2 font-medium">
+              <PlatformIcon type={auth.type} />
+              {f.platform(auth.type)}
+            </span>
+          ),
+          name: auth.display_name || "—",
+          date: f.date(auth.date_added),
+        },
+      }))}
+    />
+  );
   return (
     <>
       <PageHeader title={t.nav.conexoes} description={t.connections.description} />
       <Sections>
-        <Section title={t.connections.linked} description={t.connections.linkedCount(f.number(linked), linked)}>
-          <DataTable
-            empty={t.connections.noneLinked}
-            columns={[
-              { key: "platform", label: t.connections.platform },
-              { key: "name", label: t.connections.nameOnPlatform },
-              { key: "date", label: t.connections.connectedAt, align: "right" },
-            ]}
-            rows={summary.external_auths.map((auth, index) => ({
-              key: `${auth.type}-${index}`,
-              cells: {
-                platform: <span className="font-medium">{f.platform(auth.type)}</span>,
-                name: auth.display_name || "—",
-                date: f.date(auth.date_added),
-              },
-            }))}
-          />
+        <Section
+          title={t.connections.consoles}
+          description={`${t.connections.consolesCount(f.number(consoles.length), consoles.length)} ${t.connections.consoleNote}`}
+        >
+          {authTable(consoles, t.connections.noConsoles)}
+        </Section>
+        <Section title={t.connections.others} description={t.connections.othersCount(f.number(others.length), others.length)}>
+          {authTable(others, t.connections.noOthers)}
         </Section>
         <Section title={t.connections.linkable} description={t.connections.linkableDescription}>
-          {summary.linkable_platforms.length > 0 ? (
+          {linkable.length > 0 ? (
             <FieldGrid>
-              {summary.linkable_platforms.map((platform) => (
-                <Field key={platform} label={t.connections.platform}>
-                  <Status ok>{f.platform(platform)}</Status>
+              {linkable.map((platform) => (
+                <Field key={platform} label={isConsole(platform) ? t.connections.console : t.connections.otherAccount}>
+                  <Status ok>
+                    <PlatformIcon type={platform} />
+                    {f.platform(platform)}
+                  </Status>
                 </Field>
               ))}
             </FieldGrid>

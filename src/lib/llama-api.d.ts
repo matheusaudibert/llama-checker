@@ -235,6 +235,21 @@ export interface components {
              */
             last_display_name_change?: string | null;
             /**
+             * Can Change Email
+             * @description Whether the email can be changed right now. null when Epic didn't answer.
+             */
+            can_change_email: boolean | null;
+            /**
+             * Last Email Change
+             * @description Last email change (ISO 8601). null if the email was never changed.
+             */
+            last_email_change: string | null;
+            /**
+             * Email Change Available At
+             * @description When a locked email can be changed again (ISO 8601). null when it can be changed now.
+             */
+            email_change_available_at: string | null;
+            /**
              * Vbucks
              * @description Total V-Bucks across all sources.
              */
@@ -268,7 +283,7 @@ export interface components {
             external_auths: components["schemas"]["ExternalAuth"][];
             /**
              * Linkable Platforms
-             * @description Consoles (psn, xbl, nintendo) not linked to the account, which a new owner can link.
+             * @description Platforms (psn, xbl, nintendo, steam, github, twitch) not linked to the account, which a new owner can link.
              */
             linkable_platforms: string[];
             /** Account Level */
@@ -467,17 +482,17 @@ export interface components {
              * Type
              * @description Platform, e.g. psn, xbl, nintendo, github, steam.
              */
-            type?: string | null;
+            type: string | null;
             /**
              * Display Name
              * @description Player name on the platform.
              */
-            display_name?: string | null;
+            display_name: string | null;
             /**
              * Date Added
              * @description When the platform was connected (ISO 8601).
              */
-            date_added?: string | null;
+            date_added: string | null;
         };
         /** HTTPValidationError */
         HTTPValidationError: {

@@ -1,6 +1,6 @@
 # Llama Checker
 
-A Fortnite account checker page built on the [Llama API](https://llamaapi.mintlify.site/guides/introduction). Access here: https://lammachecker.audibert.dev/
+A Fortnite account checker page built on the [Llama API](https://llamaapi.mintlify.site/guides/introduction). Access here: https://llamachecker.audibert.dev/
 
 The player signs in with their Epic Games account on an official Epic page (the password never passes through the site) and sees their account data and locker, in a layout inspired by the Epic Games account settings page.
 

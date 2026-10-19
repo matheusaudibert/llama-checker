@@ -1,5 +1,5 @@
 import { Check, Copy, ExternalLink } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { TextShimmer } from "@/components/motion/text-shimmer";
 import { Button } from "@/components/ui/button";
 import { buttonClasses } from "@/components/ui/button-classes";
@@ -28,10 +28,13 @@ const POLL_MS = 3000;
 export function DeviceLogin({
   onApproved,
   onCancel,
+  beforeStart,
 }: {
   /** Recebe a sessão aprovada e busca os dados da conta. */
   onApproved: (sessionId: string) => Promise<void>;
   onCancel?: () => void;
+  /** Mostrado abaixo do botão de entrar só até o primeiro clique. */
+  beforeStart?: ReactNode;
 }) {
   const { t } = useI18n();
   const [phase, setPhase] = useState<Phase>({ kind: "idle" });
@@ -120,10 +123,13 @@ export function DeviceLogin({
 
   if (phase.kind === "idle" || phase.kind === "starting") {
     return (
-      <Button className="w-full" onClick={start} disabled={phase.kind === "starting"}>
-        <EpicIcon />
-        {phase.kind === "starting" ? t.login.generating : t.login.signIn}
-      </Button>
+      <>
+        <Button className="w-full" onClick={start} disabled={phase.kind === "starting"}>
+          <EpicIcon />
+          {phase.kind === "starting" ? t.login.generating : t.login.signIn}
+        </Button>
+        {phase.kind === "idle" ? beforeStart : null}
+      </>
     );
   }
 

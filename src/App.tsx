@@ -3,15 +3,16 @@ import { useState, type ReactNode } from "react";
 import { AnimatedToastStack, useAnimatedToastStack } from "@/components/motion/animated-toast-stack";
 import { DeviceLogin } from "@/components/device-login";
 import { LanguageSwitch } from "@/components/i18n-provider";
-import { LogoMenu } from "@/components/logo-menu";
+import { LogoMenu, REPOSITORY } from "@/components/logo-menu";
 import { MobileNav, Sidebar } from "@/components/nav";
 import { PoweredBy } from "@/components/powered-by";
 import { AccountSection, ConnectionsSection, SecuritySection, StatsSection, VbucksSection } from "@/components/sections/account";
 import { EquippedSection, ImagesSection, LockerSection } from "@/components/sections/items";
 import { Button } from "@/components/ui/button";
+import { buttonClasses } from "@/components/ui/button-classes";
 import { Dialog } from "@/components/ui/dialog";
 import { Hint } from "@/components/ui/hint";
-import { Avatar, Logo } from "@/components/ui/misc";
+import { Avatar, Logo, PlatformIcon } from "@/components/ui/misc";
 import { useAccount, type AccountData } from "@/hooks/use-account";
 import { errorText, useI18n } from "@/lib/i18n";
 import { en, pt } from "@/lib/messages";
@@ -34,7 +35,15 @@ function LoginScreen({ onApproved }: { onApproved: (sessionId: string) => Promis
           <h1 className="font-brand text-[40px] leading-10 tracking-wide">Llama Checker</h1>
           <p className="mt-2 text-base text-muted-foreground">{t.login.tagline}</p>
         </div>
-        <DeviceLogin onApproved={onApproved} />
+        <DeviceLogin
+          onApproved={onApproved}
+          beforeStart={
+            <a href={REPOSITORY} target="_blank" rel="noopener noreferrer" className={buttonClasses("secondary", "md", "mt-3 w-full")}>
+              <PlatformIcon type="github" className="size-5" />
+              {t.login.checkProject}
+            </a>
+          }
+        />
         <PoweredBy className="mx-auto mt-6" />
       </div>
       <LanguageSwitch className="fixed top-4 right-4" />
@@ -44,21 +53,21 @@ function LoginScreen({ onApproved }: { onApproved: (sessionId: string) => Promis
 
 function SectionView({ section, data }: { section: SectionId; data: AccountData }) {
   switch (section) {
-    case "conta":
+    case "account":
       return <AccountSection data={data} />;
-    case "seguranca":
+    case "security":
       return <SecuritySection data={data} />;
-    case "conexoes":
+    case "connections":
       return <ConnectionsSection data={data} />;
     case "vbucks":
       return <VbucksSection data={data} />;
-    case "estatisticas":
+    case "stats":
       return <StatsSection data={data} />;
-    case "equipados":
+    case "equipped":
       return <EquippedSection data={data} />;
-    case "armario":
+    case "locker":
       return <LockerSection data={data} />;
-    case "imagens":
+    case "images":
       return <ImagesSection data={data} />;
   }
 }
@@ -90,7 +99,7 @@ function Dashboard({ account, data }: { account: ReturnType<typeof useAccount>; 
       <header className="sticky top-0 z-40 bg-background">
         <div className="mx-auto flex h-16 max-w-[1132px] items-center gap-3 px-4">
           <LogoMenu>
-            <a href="#/conta" className="flex min-w-0 items-center gap-2.5" onClick={(e) => (e.preventDefault(), navigate("conta"))}>
+            <a href="#/account" className="flex min-w-0 items-center gap-2.5" onClick={(e) => (e.preventDefault(), navigate("account"))}>
               <Logo />
               <span className="truncate font-brand text-xl leading-none tracking-wide">Llama Checker</span>
             </a>

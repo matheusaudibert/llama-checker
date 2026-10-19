@@ -4,7 +4,7 @@ import { Logo, PlatformIcon } from "@/components/ui/misc";
 import { useI18n } from "@/lib/i18n";
 
 const API_DOCS = "https://llamaapi.mintlify.site";
-const REPOSITORY = "https://github.com/matheusaudibert/llama-checker";
+export const REPOSITORY = "https://github.com/matheusaudibert/llama-checker";
 
 const ITEM_CLASS =
   "flex h-10 w-full items-center gap-3 rounded-md px-3 text-left text-sm font-medium outline-none transition-colors hover:bg-foreground/[0.07] focus-visible:bg-foreground/[0.07]";

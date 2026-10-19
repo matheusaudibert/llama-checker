@@ -39,9 +39,9 @@ const SINGLE_SLOTS: (keyof Omit<Equipped, "emotes" | "wraps">)[] = [
 function EmptySlot({ label }: { label: string }) {
   const { t } = useI18n();
   return (
-    <div className="flex aspect-square w-full flex-col rounded-[10px] border border-dashed border-input">
-      <span className="m-auto text-xs text-muted-foreground">{t.equipped.empty}</span>
-      <span className="truncate px-2 py-1.5 text-[10px] text-muted-foreground">{label}</span>
+    <div className="relative flex aspect-square w-full items-center justify-center rounded-[10px] border border-dashed border-input">
+      <span className="text-xs text-muted-foreground">{t.equipped.empty}</span>
+      <span className="absolute inset-x-0 bottom-0 truncate px-2 py-1.5 text-[10px] text-muted-foreground">{label}</span>
     </div>
   );
 }
@@ -52,7 +52,7 @@ export function EquippedSection({ data }: Props) {
   const equipped = data.equipped;
   return (
     <>
-      <PageHeader title={t.nav.equipados} description={t.equipped.description} />
+      <PageHeader title={t.nav.equipped} description={t.equipped.description} />
       <Sections>
         {equipped ? (
           <>
@@ -132,7 +132,7 @@ export function LockerSection({ data }: Props) {
 
   return (
     <>
-      <PageHeader title={t.nav.armario} description={locker ? t.locker.totalDescription(f.number(total)) : t.locker.description} />
+      <PageHeader title={t.nav.locker} description={locker ? t.locker.totalDescription(f.number(total)) : t.locker.description} />
       <Sections>
         {locker ? (
           <Section title={t.locker.categories[category]} description={t.locker.shown(f.number(filtered.length), f.number(items.length))}>
@@ -293,7 +293,7 @@ export function ImagesSection({ data }: Props) {
 
   return (
     <>
-      <PageHeader title={t.nav.imagens} description={t.images.description} />
+      <PageHeader title={t.nav.images} description={t.images.description} />
       <Sections>
         {locker ? (
           RENDER_CATEGORIES.map((category) => {

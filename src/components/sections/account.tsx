@@ -17,7 +17,7 @@ export function AccountSection({ data }: Props) {
 
   return (
     <>
-      <PageHeader title={t.nav.conta} description={t.account.description} />
+      <PageHeader title={t.nav.account} description={t.account.description} />
       <Sections>
         <Section title={t.account.profile}>
           <div className="mb-6 flex items-center gap-4">
@@ -118,7 +118,7 @@ export function SecuritySection({ data }: Props) {
   const { summary } = data;
   return (
     <>
-      <PageHeader title={t.nav.seguranca} description={t.security.description} />
+      <PageHeader title={t.nav.security} description={t.security.description} />
       <Sections>
         <Section title={t.security.tfa} description={t.security.tfaDescription}>
           <FieldGrid>
@@ -178,7 +178,7 @@ export function ConnectionsSection({ data }: Props) {
   );
   return (
     <>
-      <PageHeader title={t.nav.conexoes} description={t.connections.description} />
+      <PageHeader title={t.nav.connections} description={t.connections.description} />
       <Sections>
         <Section
           title={t.connections.consoles}
@@ -257,7 +257,7 @@ export function StatsSection({ data }: Props) {
   const seasons = [...summary.past_seasons].sort((a, b) => (b.season ?? 0) - (a.season ?? 0));
   return (
     <>
-      <PageHeader title={t.nav.estatisticas} description={t.stats.description} />
+      <PageHeader title={t.nav.stats} description={t.stats.description} />
       <Sections>
         <Section title={t.stats.general}>
           <FieldGrid>

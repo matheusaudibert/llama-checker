@@ -90,10 +90,6 @@ npm run dev
 
 The project is ready for [Vercel](https://vercel.com/): import the repository, keep the Vite preset and add the `LLAMA_API_KEY` environment variable. The proxy function and the rewrites come from the repository.
 
-## Built with
-
-React 19, TypeScript, Vite and Tailwind CSS 4, with [Motion](https://motion.dev/) for animations, [Lucide](https://lucide.dev/) icons and brand icons from [Simple Icons](https://simpleicons.org/).
-
 ## License
 
 [MIT](LICENSE). Fortnite and Epic Games are trademarks of Epic Games, Inc. This project is not affiliated with or endorsed by Epic Games.

@@ -42,7 +42,11 @@ async function renderLogo(): Promise<Blob | null> {
   ctx.letterSpacing = spacing;
   ctx.fillStyle = "#ffffff";
   ctx.textBaseline = "middle";
-  ctx.drawImage(image, 0, 0, imageSize, imageSize);
+  // Como o object-contain do cabeçalho: a llama cabe no quadrado sem esticar.
+  const fit = Math.min(imageSize / image.naturalWidth, imageSize / image.naturalHeight);
+  const width = image.naturalWidth * fit;
+  const height = image.naturalHeight * fit;
+  ctx.drawImage(image, (imageSize - width) / 2, (imageSize - height) / 2, width, height);
   ctx.fillText(text, imageSize + gap, imageSize / 2);
 
   return new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/png"));

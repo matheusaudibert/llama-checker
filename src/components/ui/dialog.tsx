@@ -67,27 +67,30 @@ export function Dialog({ open, onClose, title, description, children, className 
             exit={{ y: reduce ? 0 : 8 }}
             transition={{ duration }}
             className={cn(
-              "relative max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-border bg-card p-6 text-card-foreground outline-none",
+              "relative flex max-h-[calc(100dvh-2rem)] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-border bg-card text-card-foreground outline-none",
               className,
             )}
           >
-            <div className="mb-5 flex items-start justify-between gap-4">
-              <div className="min-w-0">
-                <h2 id={titleId} className="font-display text-xl leading-7 font-bold">
-                  {title}
-                </h2>
-                {description ? <p className="mt-1 text-sm text-muted-foreground">{description}</p> : null}
+            {/* Quem rola é esta área, recuada da borda: a barra fica dentro do card, longe dos cantos arredondados. */}
+            <div className="my-2 mr-2 overflow-y-auto py-4 pr-4 pl-6">
+              <div className="mb-5 flex items-start justify-between gap-4">
+                <div className="min-w-0">
+                  <h2 id={titleId} className="font-display text-xl leading-7 font-bold">
+                    {title}
+                  </h2>
+                  {description ? <p className="mt-1 text-sm text-muted-foreground">{description}</p> : null}
+                </div>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  aria-label={t.common.close}
+                  className="-mt-1 -mr-2 inline-flex size-9 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-foreground/[0.07] hover:text-foreground"
+                >
+                  <X className="size-5" />
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={onClose}
-                aria-label={t.common.close}
-                className="-mt-1 -mr-2 inline-flex size-9 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-foreground/[0.07] hover:text-foreground"
-              >
-                <X className="size-5" />
-              </button>
+              {children}
             </div>
-            {children}
           </motion.div>
         </motion.div>
       ) : null}

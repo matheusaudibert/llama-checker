@@ -3,6 +3,7 @@ import { useState, type ReactNode } from "react";
 import { AnimatedToastStack, useAnimatedToastStack } from "@/components/motion/animated-toast-stack";
 import { DeviceLogin } from "@/components/device-login";
 import { LanguageSwitch } from "@/components/i18n-provider";
+import { LogoMenu } from "@/components/logo-menu";
 import { MobileNav, Sidebar } from "@/components/nav";
 import { PoweredBy } from "@/components/powered-by";
 import { AccountSection, ConnectionsSection, SecuritySection, StatsSection, VbucksSection } from "@/components/sections/account";
@@ -85,12 +86,14 @@ function Dashboard({ account, data }: { account: ReturnType<typeof useAccount>; 
 
   return (
     <div className="min-h-dvh">
-      <header className="sticky top-0 z-40 border-b border-border bg-background">
+      <header className="sticky top-0 z-40 bg-background">
         <div className="mx-auto flex h-16 max-w-[1132px] items-center gap-3 px-4">
-          <a href="#/conta" className="flex min-w-0 items-center gap-2.5" onClick={(e) => (e.preventDefault(), navigate("conta"))}>
-            <Logo />
-            <span className="truncate font-brand text-xl leading-none tracking-wide">Llama Checker</span>
-          </a>
+          <LogoMenu>
+            <a href="#/conta" className="flex min-w-0 items-center gap-2.5" onClick={(e) => (e.preventDefault(), navigate("conta"))}>
+              <Logo />
+              <span className="truncate font-brand text-xl leading-none tracking-wide">Llama Checker</span>
+            </a>
+          </LogoMenu>
           <div className="ml-auto flex items-center gap-1 sm:gap-2">
             <LanguageSwitch />
             <Hint label={t.header.refreshHint} side="bottom">

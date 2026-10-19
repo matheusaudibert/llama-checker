@@ -79,6 +79,32 @@
     letter-spacing: 0.02em;
     -webkit-font-smoothing: antialiased;
   }
+  /* Barra de rolagem igual à das páginas de conta da Epic. */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border: 0;
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(255 255 255 / 0.5);
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: rgb(255 255 255 / 0.3);
+    border-radius: 5px;
+    margin-block: 5px;
+  }
+  ::-webkit-scrollbar-track-piece {
+    display: none;
+  }
+  /* Firefox não tem ::-webkit-scrollbar; no Chrome, scrollbar-color anularia as regras acima. */
+  @supports not selector(::-webkit-scrollbar) {
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: rgb(255 255 255 / 0.5) rgb(255 255 255 / 0.3);
+    }
+  }
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;

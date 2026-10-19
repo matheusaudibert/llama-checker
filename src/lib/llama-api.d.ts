@@ -357,6 +357,16 @@ export interface components {
              */
             is_exclusive: boolean;
             /**
+             * From Shop
+             * @description True when the item was sold in the item shop. Battle pass, bundle, promo and event items are false.
+             */
+            from_shop: boolean;
+            /**
+             * Estimated Price
+             * @description Estimated shop price in V-Bucks, from the default price per type and rarity. null when not from the shop or not sold on its own.
+             */
+            estimated_price: number | null;
+            /**
              * Is Mythic
              * @description Rare/OG item: on the rare items list and out of the shop for 2 years, or with the original owners' exclusive style.
              */
@@ -461,6 +471,16 @@ export interface components {
              */
             styles: string[];
             /**
+             * From Shop
+             * @description True when the item was sold in the item shop. Battle pass, bundle, promo and event items are false.
+             */
+            from_shop: boolean;
+            /**
+             * Estimated Price
+             * @description Estimated shop price in V-Bucks, from the default price per type and rarity. null when not from the shop or not sold on its own.
+             */
+            estimated_price: number | null;
+            /**
              * Is Mythic
              * @description Rare/OG item: on the rare items list and out of the shop for 2 years, or with the original owners' exclusive style.
              */
@@ -521,6 +541,11 @@ export interface components {
         Locker: {
             /** @description Item count per category. */
             counts: components["schemas"]["LockerCounts"];
+            /** @description Shop items per category and their total estimated price in V-Bucks. */
+            shop: {
+                counts: components["schemas"]["LockerCounts"];
+                estimated_vbucks: number;
+            };
             /** Skins */
             skins: components["schemas"]["Cosmetic"][];
             /** Backpacks */

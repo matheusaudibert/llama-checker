@@ -105,7 +105,7 @@ function ItemDetails({ item }: { item: AnyCosmetic }) {
           </Field>
         ) : null}
         <Field label={t.item.rarity}>{f.rarity(item.rarity)}</Field>
-        <Field label={t.item.series}>{item.series ? f.rarity(item.series) : "—"}</Field>
+        <Field label={t.item.series}>{item.series ? f.rarity(item.series) : t.item.noSeries}</Field>
         <Field label={t.item.type}>{f.type(item.type)}</Field>
         <Field label={t.item.mythic}>
           <Status ok={item.is_mythic}>{yesNo(item.is_mythic)}</Status>
@@ -114,6 +114,15 @@ function ItemDetails({ item }: { item: AnyCosmetic }) {
           <Field label={t.item.exclusive}>
             <Status ok={item.is_exclusive}>{yesNo(item.is_exclusive)}</Status>
           </Field>
+        ) : null}
+        {/* Preço só quando a API estima; item fora da loja diz isso. Dados salvos antes não têm os campos. */}
+        {item.estimated_price != null ? (
+          <Field label={t.item.shopPrice}>
+            <img src="/vbucks.png" alt="" className="size-5 shrink-0" />
+            <span className="tabular-nums">{f.number(item.estimated_price)}</span>
+          </Field>
+        ) : item.from_shop === false ? (
+          <Field label={t.item.shopPrice}>{t.item.notInShop}</Field>
         ) : null}
         <Field label={t.item.inCatalog}>
           <Status ok={item.in_catalog}>{yesNo(item.in_catalog)}</Status>

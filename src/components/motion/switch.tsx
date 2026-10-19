@@ -1,12 +1,8 @@
 "use client";
 // beui.dev/components/motion/switch
 
-import { animate, motion, MotionConfig, useReducedMotion } from "motion/react";
-import { useEffect, useId, useRef, useState } from "react";
+import { useId } from "react";
 import { cn } from "@/lib/utils";
-
-// Heavy, deliberate thumb — high mass keeps the travel weighty without wobble.
-const THUMB_SPRING = { type: "spring", stiffness: 800, damping: 80, mass: 4 } as const;
 
 export interface SwitchProps {
   checked: boolean;
@@ -26,68 +22,40 @@ export function Switch({
   className,
 }: SwitchProps) {
   const id = useId();
-  const thumbRef = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-  const [isPressed, setIsPressed] = useState(false);
-
-  // Disabled shake feedback when pressed.
-  useEffect(() => {
-    if (!thumbRef.current || reduce) return;
-    if (disabled && isPressed) {
-      animate(
-        thumbRef.current,
-        { x: [0, -2, 2, -1, 0] },
-        { delay: 0.2, duration: 0.6 },
-      );
-    }
-  }, [disabled, isPressed, reduce]);
-
 
   return (
-    <MotionConfig transition={reduce ? { duration: 0 } : THUMB_SPRING}>
-      <span className={cn("inline-flex items-center gap-3", className)}>
-        <motion.button
-          id={id}
-          type="button"
-          role="switch"
-          aria-checked={checked}
-          aria-label={ariaLabel}
-          disabled={disabled}
-          onClick={() => !disabled && onCheckedChange(!checked)}
-          onPointerDown={() => {
-            setIsPressed(true);
-          }}
-          onPointerUp={() => setIsPressed(false)}
-          onPointerLeave={() => setIsPressed(false)}
-          initial={false}
-          data-state={checked ? "checked" : "unchecked"}
+    // Visual do toggle da Epic: trilho 40x20 com borda, bolinha de 16px, sem animação; o hover vale também em cima do texto.
+    <span className={cn("group inline-flex items-center gap-3", className)}>
+      <button
+        id={id}
+        type="button"
+        role="switch"
+        aria-checked={checked}
+        aria-label={ariaLabel}
+        disabled={disabled}
+        onClick={() => !disabled && onCheckedChange(!checked)}
+        data-state={checked ? "checked" : "unchecked"}
+        className={cn(
+          "peer inline-flex h-5 w-10 shrink-0 cursor-pointer items-center rounded-full border p-px outline-none",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
+          "disabled:cursor-not-allowed disabled:opacity-50",
+          checked
+            ? "justify-end border-primary bg-primary group-hover:bg-[#7cd6ff]"
+            : "justify-start border-white/35 bg-white/5 group-hover:border-white/65",
+        )}
+      >
+        <span
           className={cn(
-            "group peer inline-flex h-7 w-12 shrink-0 cursor-pointer items-center px-1 rounded-full outline-none transition-colors duration-200",
-            "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-            "disabled:cursor-not-allowed disabled:opacity-60",
-            checked ? "justify-end bg-primary" : "justify-start bg-muted-foreground/60",
+            "pointer-events-none block size-4 rounded-full",
+            checked ? "bg-black" : "bg-[#ababad] group-hover:bg-white",
           )}
-        >
-          <motion.div
-            ref={thumbRef}
-            layout
-            animate={{ scale: 1 }}
-            className="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-sm"
-          >
-            {/* Sem efeito de clique: o thumb só desliza. */}
-            <div
-              className={cn(
-                "size-5",
-              )}
-            />
-          </motion.div>
-        </motion.button>
-        {label ? (
-          <label htmlFor={id} className="cursor-pointer text-sm text-foreground">
-            {label}
-          </label>
-        ) : null}
-      </span>
-    </MotionConfig>
+        />
+      </button>
+      {label ? (
+        <label htmlFor={id} className="cursor-pointer text-sm text-foreground">
+          {label}
+        </label>
+      ) : null}
+    </span>
   );
 }

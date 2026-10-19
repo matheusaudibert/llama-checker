@@ -104,6 +104,7 @@ export function LockerSection({ data }: Props) {
   const [query, setQuery] = useState("");
   const [rarity, setRarity] = useState("all");
   const [specialOnly, setSpecialOnly] = useState(false);
+  const [shopOnly, setShopOnly] = useState(false);
   const [limit, setLimit] = useState(PAGE);
   const [selected, setSelected] = useState<AnyCosmetic | null>(null);
 
@@ -116,9 +117,10 @@ export function LockerSection({ data }: Props) {
       (item) =>
         (rarity === "all" || item.rarity === rarity) &&
         (!specialOnly || item.is_mythic || item.is_exclusive) &&
+        (!shopOnly || item.from_shop) &&
         (!q || item.name.toLowerCase().includes(q) || item.name_pt?.toLowerCase().includes(q) || item.id.includes(q)),
     );
-  }, [items, query, rarity, specialOnly]);
+  }, [items, query, rarity, specialOnly, shopOnly]);
 
   const changeCategory = (next: string) => {
     setCategory(next as LockerCategory);
@@ -177,7 +179,7 @@ export function LockerSection({ data }: Props) {
                 </SelectContent>
               </Select>
             </div>
-            <div className="mb-6">
+            <div className="mb-6 flex flex-wrap gap-x-6 gap-y-3">
               <Switch
                 checked={specialOnly}
                 onCheckedChange={(v) => {
@@ -185,6 +187,14 @@ export function LockerSection({ data }: Props) {
                   setLimit(PAGE);
                 }}
                 label={t.locker.specialOnly}
+              />
+              <Switch
+                checked={shopOnly}
+                onCheckedChange={(v) => {
+                  setShopOnly(v);
+                  setLimit(PAGE);
+                }}
+                label={t.locker.shopOnly}
               />
             </div>
 

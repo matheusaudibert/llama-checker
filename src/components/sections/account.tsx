@@ -14,7 +14,6 @@ export function AccountSection({ data }: Props) {
   const [showEmail, setShowEmail] = useState(false);
   const skin = data.equipped?.skin;
   const fullName = [summary.name, summary.last_name].filter(Boolean).join(" ");
-  const yesNo = (value: boolean) => (value ? t.common.yes : t.common.no);
 
   return (
     <>
@@ -47,6 +46,15 @@ export function AccountSection({ data }: Props) {
               actions={summary.email ? <CopyAction value={summary.email} label={t.account.copyEmail} /> : null}
             >
               {summary.email ? (showEmail ? summary.email : maskEmail(summary.email)) : "—"}
+            </Field>
+            <Field label={t.account.canChange}>
+              <Status ok={summary.can_change_display_name}>
+                {summary.can_change_display_name
+                  ? t.common.yes
+                  : summary.display_name_change_available_at
+                    ? t.account.nameLockedUntil(f.date(summary.display_name_change_available_at))
+                    : t.common.no}
+              </Status>
             </Field>
             {/* null: a Epic não respondeu essa parte; não dá para dizer que pode trocar. */}
             {summary.can_change_email != null ? (
@@ -88,7 +96,6 @@ export function AccountSection({ data }: Props) {
 
         <Section title={t.account.dates} description={t.account.datesDescription}>
           <FieldGrid>
-            <Field label={t.account.created}>{f.date(summary.account_created)}</Field>
             <Field label={t.account.profileCreated}>{f.date(summary.profile_created)}</Field>
             <Field label={t.account.lastLogin}>{f.dateTime(summary.last_login)}</Field>
             <Field label={t.account.lastMatch}>{f.dateTime(summary.last_match_end)}</Field>
@@ -99,9 +106,6 @@ export function AccountSection({ data }: Props) {
           <FieldGrid>
             <Field label={t.account.nameChanges}>{f.number(summary.display_name_changes)}</Field>
             <Field label={t.account.lastNameChange}>{f.dateTime(summary.last_display_name_change)}</Field>
-            <Field label={t.account.canChange}>
-              <Status ok={summary.can_change_display_name}>{yesNo(summary.can_change_display_name)}</Status>
-            </Field>
           </FieldGrid>
         </Section>
       </Sections>

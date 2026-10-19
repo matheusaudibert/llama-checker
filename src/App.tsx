@@ -14,6 +14,7 @@ import { Hint } from "@/components/ui/hint";
 import { Avatar, Logo } from "@/components/ui/misc";
 import { useAccount, type AccountData } from "@/hooks/use-account";
 import { errorText, useI18n } from "@/lib/i18n";
+import { en, pt } from "@/lib/messages";
 import { useSectionRoute, type SectionId } from "@/lib/sections";
 import { cn } from "@/lib/utils";
 
@@ -99,7 +100,10 @@ function Dashboard({ account, data }: { account: ReturnType<typeof useAccount>; 
             <Hint label={t.header.refreshHint} side="bottom">
               <Button variant="ghost" size="sm" className="px-2.5 sm:px-3" onClick={refresh} disabled={account.refreshing} aria-label={t.header.refresh}>
                 <RefreshCw className={cn("size-[18px]", account.refreshing && "opacity-50")} />
-                <span className="hidden sm:inline">{account.refreshing ? t.header.refreshing : t.header.refresh}</span>
+                <StableLabel
+                current={account.refreshing ? t.header.refreshing : t.header.refresh}
+                labels={[pt.header.refresh, en.header.refresh, pt.header.refreshing, en.header.refreshing]}
+              />
               </Button>
             </Hint>
             <span className="mx-1 hidden h-6 w-px bg-border sm:block" />
@@ -109,7 +113,7 @@ function Dashboard({ account, data }: { account: ReturnType<typeof useAccount>; 
             </span>
             <Button variant="ghost" size="sm" className="px-2.5 sm:px-3" onClick={() => setLogoutOpen(true)} aria-label={t.header.logout}>
               <LogOut className="size-[18px]" />
-              <span className="hidden sm:inline">{t.header.logout}</span>
+              <StableLabel current={t.header.logout} labels={[pt.header.logout, en.header.logout]} />
             </Button>
           </div>
         </div>
@@ -206,5 +210,19 @@ function Notice({ children, tone = "info", onDismiss }: { children: ReactNode; t
         </button>
       ) : null}
     </div>
+  );
+}
+
+// Todos os rótulos ocupam a mesma célula e só o atual aparece: o botão fica com a largura do maior,
+// então a nav não se mexe ao trocar o idioma.
+function StableLabel({ current, labels }: { current: string; labels: string[] }) {
+  return (
+    <span className="hidden sm:inline-grid">
+      {[...new Set(labels)].map((label) => (
+        <span key={label} className={cn("col-start-1 row-start-1", label !== current && "invisible")} aria-hidden={label !== current}>
+          {label}
+        </span>
+      ))}
+    </span>
   );
 }

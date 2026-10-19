@@ -205,13 +205,8 @@ export interface components {
              */
             minor_verified: boolean;
             /**
-             * Account Created
-             * @description Epic account creation date (ISO 8601).
-             */
-            account_created?: string | null;
-            /**
              * Profile Created
-             * @description Fortnite profile creation date (ISO 8601).
+             * @description Fortnite profile creation date (ISO 8601). Not the Epic account creation date.
              */
             profile_created?: string | null;
             /**
@@ -234,6 +229,11 @@ export interface components {
              * @description Last display name change (ISO 8601).
              */
             last_display_name_change?: string | null;
+            /**
+             * Display Name Change Available At
+             * @description When a locked display name can be changed again (ISO 8601). null when it can be changed now, or when Epic didn't send the date.
+             */
+            display_name_change_available_at: string | null;
             /**
              * Can Change Email
              * @description Whether the email can be changed right now. null when Epic didn't answer.
